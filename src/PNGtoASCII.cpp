@@ -1,4 +1,4 @@
-﻿#include "ConvertorASCII.h"
+#include "ConvertorASCII.h"
 
 int main()
 {

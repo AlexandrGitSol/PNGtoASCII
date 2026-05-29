@@ -2,9 +2,10 @@
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
+using namespace std;
 
 int ConvertorASCII::gcd(int a, int b) {
-    // Обрабатываем отрицательные числа, используя абсолютное значение
+    // РћР±СЂР°Р±Р°С‚С‹РІР°РµРј РѕС‚СЂРёС†Р°С‚РµР»СЊРЅС‹Рµ С‡РёСЃР»Р°, РёСЃРїРѕР»СЊР·СѓСЏ Р°Р±СЃРѕР»СЋС‚РЅРѕРµ Р·РЅР°С‡РµРЅРёРµ
     a = std::abs(a);
     b = std::abs(b);
 
@@ -36,7 +37,7 @@ pair<int, int> ConvertorASCII::resize(int width, int height, int max_w) {
 }
 
 unsigned char ConvertorASCII::ptouc(unsigned char r, unsigned char g, unsigned char b) {
-    // Коэффициенты восприятия яркости
+    // РљРѕСЌС„С„РёС†РёРµРЅС‚С‹ РІРѕСЃРїСЂРёСЏС‚РёСЏ СЏСЂРєРѕСЃС‚Рё
     const double red_coef = 0.2126;
     const double green_coef = 0.7152;
     const double blue_coef = 0.0722;
@@ -54,35 +55,35 @@ unsigned char ConvertorASCII::ptouc(unsigned char r, unsigned char g, unsigned c
 
 string ConvertorASCII::PNGtoASCII(unsigned char* data, int original_width, int original_height, int width_art, int height_art) {
     std::string result;
-    result.reserve(width_art * height_art + height_art); // Резервируем память для эффективности
+    result.reserve(width_art * height_art + height_art); // Р РµР·РµСЂРІРёСЂСѓРµРј РїР°РјСЏС‚СЊ РґР»СЏ СЌС„С„РµРєС‚РёРІРЅРѕСЃС‚Рё
 
-    // Вычисляем размеры блоков для усреднения
+    // Р’С‹С‡РёСЃР»СЏРµРј СЂР°Р·РјРµСЂС‹ Р±Р»РѕРєРѕРІ РґР»СЏ СѓСЃСЂРµРґРЅРµРЅРёСЏ
     double block_width = static_cast<double>(original_width) / width_art;
     double block_height = static_cast<double>(original_height) / height_art;
 
     for (int art_y = 0; art_y < height_art; art_y++) {
         for (int art_x = 0; art_x < width_art; art_x++) {
-            // Определяем границы текущего блока в исходном изображении
+            // РћРїСЂРµРґРµР»СЏРµРј РіСЂР°РЅРёС†С‹ С‚РµРєСѓС‰РµРіРѕ Р±Р»РѕРєР° РІ РёСЃС…РѕРґРЅРѕРј РёР·РѕР±СЂР°Р¶РµРЅРёРё
             int start_x = static_cast<int>(art_x * block_width);
             int start_y = static_cast<int>(art_y * block_height);
             int end_x = static_cast<int>((art_x + 1) * block_width);
             int end_y = static_cast<int>((art_y + 1) * block_height);
 
-            // Гарантируем, что блоки не выходят за границы
+            // Р“Р°СЂР°РЅС‚РёСЂСѓРµРј, С‡С‚Рѕ Р±Р»РѕРєРё РЅРµ РІС‹С…РѕРґСЏС‚ Р·Р° РіСЂР°РЅРёС†С‹
             end_x = std::min(end_x, original_width);
             end_y = std::min(end_y, original_height);
 
-            // Переменные для накопления сумм цветов
+            // РџРµСЂРµРјРµРЅРЅС‹Рµ РґР»СЏ РЅР°РєРѕРїР»РµРЅРёСЏ СЃСѓРјРј С†РІРµС‚РѕРІ
             unsigned long long sum_r = 0, sum_g = 0, sum_b = 0;
             int pixel_count = 0;
 
-            // Проходим по всем пикселям в текущем блоке
+            // РџСЂРѕС…РѕРґРёРј РїРѕ РІСЃРµРј РїРёРєСЃРµР»СЏРј РІ С‚РµРєСѓС‰РµРј Р±Р»РѕРєРµ
             for (int y = start_y; y < end_y; y++) {
                 for (int x = start_x; x < end_x; x++) {
-                    // Вычисляем индекс пикселя в массиве data
+                    // Р’С‹С‡РёСЃР»СЏРµРј РёРЅРґРµРєСЃ РїРёРєСЃРµР»СЏ РІ РјР°СЃСЃРёРІРµ data
                     int pixel_index = (y * original_width + x) * 3;
 
-                    // Суммируем компоненты цвета
+                    // РЎСѓРјРјРёСЂСѓРµРј РєРѕРјРїРѕРЅРµРЅС‚С‹ С†РІРµС‚Р°
                     sum_r += data[pixel_index];
                     sum_g += data[pixel_index + 1];
                     sum_b += data[pixel_index + 2];
@@ -90,22 +91,22 @@ string ConvertorASCII::PNGtoASCII(unsigned char* data, int original_width, int o
                 }
             }
 
-            // Вычисляем средние значения цветов
+            // Р’С‹С‡РёСЃР»СЏРµРј СЃСЂРµРґРЅРёРµ Р·РЅР°С‡РµРЅРёСЏ С†РІРµС‚РѕРІ
             if (pixel_count > 0) {
                 unsigned char avg_r = static_cast<unsigned char>(sum_r / pixel_count);
                 unsigned char avg_g = static_cast<unsigned char>(sum_g / pixel_count);
                 unsigned char avg_b = static_cast<unsigned char>(sum_b / pixel_count);
 
-                // Преобразуем средний цвет в символ ASCII
+                // РџСЂРµРѕР±СЂР°Р·СѓРµРј СЃСЂРµРґРЅРёР№ С†РІРµС‚ РІ СЃРёРјРІРѕР» ASCII
                 result += ptouc(avg_r, avg_g, avg_b);
             }
             else {
-                // Если блок пустой, используем пробел
+                // Р•СЃР»Рё Р±Р»РѕРє РїСѓСЃС‚РѕР№, РёСЃРїРѕР»СЊР·СѓРµРј РїСЂРѕР±РµР»
                 result += ' ';
             }
         }
 
-        // Добавляем перевод строки после каждой строки арта
+        // Р”РѕР±Р°РІР»СЏРµРј РїРµСЂРµРІРѕРґ СЃС‚СЂРѕРєРё РїРѕСЃР»Рµ РєР°Р¶РґРѕР№ СЃС‚СЂРѕРєРё Р°СЂС‚Р°
         result += '\n';
     }
 
@@ -134,7 +135,7 @@ string ConvertorASCII::remake_console(std::string pixels, double aspect_ratio) {
         std::string stretched_line;
         stretched_line.reserve(new_width);
 
-        // Используем линейную интерполяцию для более плавного растяжения
+        // РСЃРїРѕР»СЊР·СѓРµРј Р»РёРЅРµР№РЅСѓСЋ РёРЅС‚РµСЂРїРѕР»СЏС†РёСЋ РґР»СЏ Р±РѕР»РµРµ РїР»Р°РІРЅРѕРіРѕ СЂР°СЃС‚СЏР¶РµРЅРёСЏ
         for (int i = 0; i < new_width; i++) {
             double pos = static_cast<double>(i) / aspect_ratio;
             int original_index = static_cast<int>(pos);
@@ -143,7 +144,7 @@ string ConvertorASCII::remake_console(std::string pixels, double aspect_ratio) {
                 stretched_line += original_line[original_index];
             }
             else {
-                stretched_line += ' '; // Заполнитель для выравнивания
+                stretched_line += ' '; // Р—Р°РїРѕР»РЅРёС‚РµР»СЊ РґР»СЏ РІС‹СЂР°РІРЅРёРІР°РЅРёСЏ
             }
         }
 
@@ -178,11 +179,11 @@ string ConvertorASCII::converted(string path_) {
 
 void ConvertorASCII::asking() {
     while (!stgs.stop) {
-        cout << "Конвертировать [1]\nИзменить настройки [2]\nЗакрыть [3]\nВыбор команды: ";
+        cout << "РљРѕРЅРІРµСЂС‚РёСЂРѕРІР°С‚СЊ [1]\nРР·РјРµРЅРёС‚СЊ РЅР°СЃС‚СЂРѕР№РєРё [2]\nР—Р°РєСЂС‹С‚СЊ [3]\nР’С‹Р±РѕСЂ РєРѕРјР°РЅРґС‹: ";
         string com;
         getline(cin, com);
         if (com == "1") {
-            cout << "Введите путь к файлу: ";
+            cout << "Р’РІРµРґРёС‚Рµ РїСѓС‚СЊ Рє С„Р°Р№Р»Сѓ: ";
             string path_;
             getline(cin, path_);
             string repath_ = "";
@@ -195,49 +196,49 @@ void ConvertorASCII::asking() {
                 converted(path_);
             }
             else {
-                cout << "Такого пути не существует или разрешение файла не соответствует доступным (jpg, png).\n\n";
+                cout << "РўР°РєРѕРіРѕ РїСѓС‚Рё РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚ РёР»Рё СЂР°Р·СЂРµС€РµРЅРёРµ С„Р°Р№Р»Р° РЅРµ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓРµС‚ РґРѕСЃС‚СѓРїРЅС‹Рј (jpg, png).\n\n";
             }
         }
         else if (com == "2"){
-            cout << "Задать максимальную ширину Арта (Сейчас - " << stgs.max_w << " ) [1]\nЗадать соотношение сторон (Сейчас - " << stgs.aspect_ratio <<") [2]\nОтмена [любой символ]\nВвод: ";
+            cout << "Р—Р°РґР°С‚СЊ РјР°РєСЃРёРјР°Р»СЊРЅСѓСЋ С€РёСЂРёРЅСѓ РђСЂС‚Р° (РЎРµР№С‡Р°СЃ - " << stgs.max_w << " ) [1]\nР—Р°РґР°С‚СЊ СЃРѕРѕС‚РЅРѕС€РµРЅРёРµ СЃС‚РѕСЂРѕРЅ (РЎРµР№С‡Р°СЃ - " << stgs.aspect_ratio <<") [2]\nРћС‚РјРµРЅР° [Р»СЋР±РѕР№ СЃРёРјРІРѕР»]\nР’РІРѕРґ: ";
             string choice;
             getline(cin, choice);
             if (choice == "1") {
-                cout << "Введите максимальную ширину Арта (целое число, рекомендуемо от 40 до 400): ";
+                cout << "Р’РІРµРґРёС‚Рµ РјР°РєСЃРёРјР°Р»СЊРЅСѓСЋ С€РёСЂРёРЅСѓ РђСЂС‚Р° (С†РµР»РѕРµ С‡РёСЃР»Рѕ, СЂРµРєРѕРјРµРЅРґСѓРµРјРѕ РѕС‚ 40 РґРѕ 400): ";
                 getline(cin, choice);
                 if (is_int(choice)) {
                     if (stoi(choice) < 1) stgs.max_w = 1;
                     else if (stoi(choice) > 750) stgs.max_w = 750;
                     else stgs.max_w = stoi(choice);
-                    cout << "Настройки сохранены. \n\n";
+                    cout << "РќР°СЃС‚СЂРѕР№РєРё СЃРѕС…СЂР°РЅРµРЅС‹. \n\n";
                 }
                 else {
-                    cout << "Введено недопустимое значение!\n\n";
+                    cout << "Р’РІРµРґРµРЅРѕ РЅРµРґРѕРїСѓСЃС‚РёРјРѕРµ Р·РЅР°С‡РµРЅРёРµ!\n\n";
                 }
             }
             else if (choice == "2") {
-                cout << "Введите соотношение сторон - вытянутость арта (десятичное число, рекомендуемо 2.5): ";
+                cout << "Р’РІРµРґРёС‚Рµ СЃРѕРѕС‚РЅРѕС€РµРЅРёРµ СЃС‚РѕСЂРѕРЅ - РІС‹С‚СЏРЅСѓС‚РѕСЃС‚СЊ Р°СЂС‚Р° (РґРµСЃСЏС‚РёС‡РЅРѕРµ С‡РёСЃР»Рѕ, СЂРµРєРѕРјРµРЅРґСѓРµРјРѕ 2.5): ";
                 getline(cin, choice);
                 if (is_double(choice)) {
                     if (stod(choice) < 0.5) stgs.aspect_ratio = 0.5;
                     else if (stod(choice) > 5) stgs.aspect_ratio = 5;
                     else stgs.aspect_ratio = stod(choice);
-                    cout << "Настройки сохранены. \n\n";
+                    cout << "РќР°СЃС‚СЂРѕР№РєРё СЃРѕС…СЂР°РЅРµРЅС‹. \n\n";
                 }
                 else {
-                    cout << "Введено недопустимое значение!\n\n";
+                    cout << "Р’РІРµРґРµРЅРѕ РЅРµРґРѕРїСѓСЃС‚РёРјРѕРµ Р·РЅР°С‡РµРЅРёРµ!\n\n";
                 }
             }
             else {
-                cout << "Отмена.\n\n";
+                cout << "РћС‚РјРµРЅР°.\n\n";
             }
         }
         else if (com == "3") {
             stgs.stop = true;
-            cout << "Работа завершена.\n";
+            cout << "Р Р°Р±РѕС‚Р° Р·Р°РІРµСЂС€РµРЅР°.\n";
         }
         else {
-            cout << "Такой команды нет!\n\n";
+            cout << "РўР°РєРѕР№ РєРѕРјР°РЅРґС‹ РЅРµС‚!\n\n";
         }
     }
 }
