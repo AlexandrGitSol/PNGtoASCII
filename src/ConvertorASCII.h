@@ -11,7 +11,6 @@
 #include <string>
 #include <sstream>
 #include <vector>
-using namespace std;
 
 class ConvertorASCII {
 	struct Settings {
@@ -22,14 +21,14 @@ class ConvertorASCII {
 
 	Settings stgs;
 	FileManagerBK fm;
-	vector<string> ends = { "*.jpg", "*.png" };
+	std::vector<std::string> ends = { "*.jpg", "*.png" };
 
 	int gcd(int a, int b);
-	pair<int, int> resize(int width, int height, int k);
+	std::pair<int, int> resize(int width, int height, int k);
 	unsigned char ptouc(unsigned char r, unsigned char g, unsigned char b);
-	string PNGtoASCII(unsigned char* data, int original_width, int original_height, int width_art, int height_art);
-	string remake_console(std::string pixels, double aspect_ratio);
-	string converted(string path_);
+	std::string PNGtoASCII(unsigned char* data, int original_width, int original_height, int width_art, int height_art);
+	std::string remake_console(std::string pixels, double aspect_ratio);
+	std::string converted(std::string path_);
 
 	template<typename T>
 	bool can_convert(const std::string& str) {

@@ -6,7 +6,7 @@ int main()
     ConvertorASCII convertor_ascii;
     convertor_ascii.asking();
 
-    cin.ignore();
-    cin.get();
+    std::cin.ignore();
+    std::cin.get();
     return 0;
 }

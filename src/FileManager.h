@@ -15,6 +15,7 @@
 #include "../libs/sqlite3.h"
 
 #ifdef _WIN64
+    #define NOMINMAX
     #include <windows.h>
 #endif //_WIN64
 
